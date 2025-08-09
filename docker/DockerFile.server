@@ -1,0 +1,7 @@
+FROM node:24 AS build
+
+RUN mkdir -p /var/www/todos-server
+RUN mkdir -p /var/www/todos-server/libs
+RUN mkdir -p /var/www/todos-server/apps 
+
+WORKDIR /var/www/todos-server

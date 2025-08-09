@@ -1,0 +1,16 @@
+services: 
+  back: 
+    container_name: todos-server-nest
+    env_file:
+      - apps/server/env/.env
+    build:
+      context: .
+      dockerfile: ./deploy/server/docker/Dockerfile.server
+    image: todos-server-nest
+    restart: always
+    ports: 
+      - '58000:8000'
+    volumes:
+      - '/etc/timezone:/etc/timezone:ro'
+    working_dir: /var/www/todos-server
+    command: pm2-runtime start ecosystem.config.js --only @todos/server-nest  --node-args="max-old-space-size=2048"
