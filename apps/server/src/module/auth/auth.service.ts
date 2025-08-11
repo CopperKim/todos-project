@@ -67,18 +67,21 @@ export class AuthService {
     cookieOptsAccess() {
 
         return {
-            httpOnly: true, sameSite: 'lax' as const, secure: process.env.NODE_ENV === 'production',
-            maxAge: (Number(process.env.JWT_ACCESS_TTL) || 900) * 1000, path: '/',
+            httpOnly: true, 
+            sameSite: 'lax' as const, 
+            maxAge: (Number(process.env.JWT_ACCESS_TTL) || 900) * 1000, 
+            path: '/',
         };
 
     }
+    
     cookieOptsRefresh() {
-
         return {
-            httpOnly: true, sameSite: 'lax' as const, secure: process.env.NODE_ENV === 'production',
-            maxAge: (Number(process.env.JWT_REFRESH_TTL) || 1209600) * 1000, path: '/',
+            httpOnly: true, 
+            sameSite: 'lax' as const, 
+            maxAge: (Number(process.env.JWT_REFRESH_TTL) || 1209600) * 1000, 
+            path: '/',
         };
-
     }
 
     async login(dto: LoginDto) {
