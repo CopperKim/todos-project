@@ -1,27 +1,57 @@
-import { Injectable } from "@nestjs/common";
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { JwtService } from "@nestjs/jwt";
+import { TodosDto } from "./dto/todos.dto";
 
 @Injectable()
 export class TodosService {
     constructor (
-        private readonly prismaService: PrismaService, 
-        private readonly jwtService: JwtService
+        private readonly prismaService: PrismaService
     ) {}
 
-    async getTodos() {
+    async getTodos(userid: string) {
+
+        return await this.prismaService.todo.findMany( { where : { userId : userid } } )
 
     }
 
-    async postTodos(id: string) {
+    async postTodos(userId: string, dto : TodosDto) {
+        
+        const user = await this.prismaService.user.findUnique( { where : { id : userId } } )
+        
+        if (!user) return new UnauthorizedException('Invalid credentials'); 
+
+        // if (due <= Date.now()) return new UnauthorizedException('due date should be later')
+
+        await this.prismaService.todo.create({ 
+            data: { 
+                userId: userId, 
+                title: dto.title, 
+                content: dto.content,
+                dueDate: dto.dueDate || Date.now() 
+            } 
+        }) 
 
     } 
 
-    async updateTodos(id: string) {
+    async updateTodos(todoId: string, userId: string, dto : TodosDto) {
+
+        const uniqueTodo = await this.prismaService.todo.findUnique({where : { id : todoId }} )
+
+        if ( !uniqueTodo ) throw new NotFoundException('invalid todo id')
+
+        if ( uniqueTodo.userId !== userId ) throw new ForbiddenException('userId does not match!')
+
+        return this.prismaService.todo.update( { where : { id : todoId }, data : {
+            title: dto.title, 
+            content: dto.content, 
+            dueDate: dto.dueDate || Date.now() 
+        } })
 
     }
 
-    async deleteTodos(id: string) {
+    async deleteTodos(todoId: string) {
 
+        return this.prismaService.todo.delete( { where : { id : todoId }}); 
+        
     }
 }
