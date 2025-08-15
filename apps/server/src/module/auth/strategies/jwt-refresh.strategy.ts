@@ -8,11 +8,11 @@ const fromCookie = (name : string) => (req : any) => req?.cookies?.[name] ?? nul
 
 @Injectable() 
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'){
-    constructor() {
+    constructor() { 
         super({
             jwtFromRequest: ExtractJwt.fromExtractors([fromCookie('refresh_token')]),
             secretOrKey: process.env.JWT_REFRESH_SECRET, 
-            ignoreExpiration: false, 
+            ignoreExpiration: false,
             passReqToCallback: true
         })
     }
