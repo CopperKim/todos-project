@@ -38,9 +38,10 @@ export class TodosController {
     @Delete(':id')
     async deleteTodo(
         @Param('id') todoId: string,
+        @GetCurrentUser('sub') userId: string, 
     ) {
 
-        return await this.todosService.deleteTodos(todoId)
+        return await this.todosService.deleteTodos(todoId, userId)
 
     }
 }

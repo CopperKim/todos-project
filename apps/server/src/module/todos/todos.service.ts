@@ -49,7 +49,13 @@ export class TodosService {
 
     }
 
-    async deleteTodos(todoId: string) {
+    async deleteTodos(todoId: string, userId: string) {
+
+        const uniqueTodo = await this.prismaService.todo.findUnique( {where : {id : todoId }})
+
+        if (!uniqueTodo) throw new NotFoundException('invalid todo id')
+
+        if (uniqueTodo.userId !== userId) throw new ForbiddenException('userId does not match')
 
         return this.prismaService.todo.delete( { where : { id : todoId }}); 
         
