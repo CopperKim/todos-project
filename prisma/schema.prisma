@@ -18,6 +18,9 @@ model User {
   username         String   @unique
   passwordHash     String
   refreshTokenHash String?
+  role             Role     @default(UNDEFINED)
+  tag              String[] 
+  bio              String   @default("")
   createdAt        DateTime @default(now())
 }
 
@@ -31,5 +34,22 @@ model Todo {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([userId], name: "userId index")
+  @@index([userId])
+}
+
+model Review {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  studentId String @db.ObjectId 
+  teacherId String @db.ObjectId
+  rating Int 
+  content String @default("disgusting!!")
+  createdAt DateTime @default(now())
+
+  @@index([teacherId])
+}
+
+enum Role {
+  UNDEFINED
+  TEACHER
+  STUDENT
 }
