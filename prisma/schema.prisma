@@ -30,7 +30,6 @@ model Todo {
   title     String   @default("TITLE")
   content   String   @default("content")
   dueDate   DateTime @default(now())
-  isDone    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
