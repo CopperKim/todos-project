@@ -22,7 +22,7 @@ export class TodosService {
 
         // if (due <= Date.now()) return new UnauthorizedException('due date should be later')
 
-        await this.prismaService.todo.create({ 
+        return await this.prismaService.todo.create({ 
             data: { 
                 userId: userId, 
                 title: dto.title, 
