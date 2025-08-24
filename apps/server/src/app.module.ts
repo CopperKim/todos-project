@@ -7,16 +7,18 @@ import { TodosModule } from './module/todos/todos.module';
 import { AuthModule } from './module/auth/auth.module';
 import { APP_GUARD, APP_FILTER } from '@nestjs/core';
 import { JwtAccessGuard } from './module/auth/guards/jwt-acess.guard';
+import { ProfileModule } from './module/profile/profile.module';
 
 @Module({
   imports: [
     AuthModule, 
     TodosModule,
+    ProfileModule
   ],
   controllers: [AppController],
   providers: [
     { provide: APP_GUARD, useClass: JwtAccessGuard },
-    { provide: APP_FILTER, useClass: RefreshExpiredFilter}, 
+    // { provide: APP_FILTER, useClass: RefreshExpiredFilter}, 
     AppService,
   ],
 })
