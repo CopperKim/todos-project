@@ -1,8 +1,15 @@
-import { Injectable } from "@nestjs/common";
 import { Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsString } from "class-validator";
+import { IsDate, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class TodosDto {
+
+    @IsString()
+    @IsOptional()
+    userId: string
+
+    @IsString()
+    @IsOptional()
+    todoId: string
     
     @IsString()
     @IsNotEmpty({ message : "title must not be null" })
