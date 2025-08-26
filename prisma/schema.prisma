@@ -22,8 +22,8 @@ model User {
   
   profile          Profile?
   todos            Todo[]
-  studentReviews   Review[]  @relation("StudentReviews") // 내가 학생으로 쓴 리뷰
-  teacherReviews   Review[]  @relation("TeacherReviews") // 내가 교사로 받은 리뷰
+  studentReviews   Review[]  @relation("StudentReviews")
+  teacherReviews   Review[]  @relation("TeacherReviews")
 }
 
 model Profile {
@@ -44,6 +44,24 @@ model Todo {
   dueDate   DateTime @default(now())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Recruit {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  studentId String @db.ObjectId
+  student User @relation(fields: [studentId], references: [id])
+  title String 
+  content String 
+  dayAvailable Boolean[] 
+  tag String[] 
+}
+
+model Chat {
+  
+} 
+
+model Message {
+
 }
 
 model Review {
