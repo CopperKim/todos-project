@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { GetCurrentUser } from "../../common/decorator/getcurrentuser.decorator";
-import { TodosDto } from "./dto/todos.dto";
+import { TodosDto } from "../../common/dto/todos.dto";
 import { TodosService } from "./todos.service";
 
 @Controller('api/todo')

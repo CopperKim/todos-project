@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { TodosDto } from "./dto/todos.dto";
+import { TodosDto } from "../../common/dto/todos.dto";
 
 @Injectable()
 export class TodosService {

@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Req, Res, UnauthorizedException, UseGuards } from "@nestjs/common";
 import type { Request, Response } from "express";
 import { AuthService } from "./auth.service";
-import { SignUpDto } from "./dto/signup.dto";
-import { LoginDto } from "./dto/login.dto";
+import { SignUpDto } from "../../common/dto/signup.dto";
+import { LoginDto } from "../../common/dto/login.dto";
 import { JwtAccessGuard } from "./guards/jwt-acess.guard";
 import { GetCurrentUser } from "../../common/decorator/getcurrentuser.decorator";
 import { JwtRefreshGuard } from "./guards/jwt-refresh.guard";

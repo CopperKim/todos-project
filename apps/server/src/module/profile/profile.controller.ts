@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Patch } from "@nestjs/common";
 import { GetCurrentUser } from "../../common/decorator/getcurrentuser.decorator";
 import { ProfileService } from "./profile.service";
-import { profileDto } from "./dto/profile.dto";
+import { profileDto } from "../../common/dto/profile.dto";
 import { Public } from "../../common/decorator/public.decorator";
 
 @Controller('api/profile')

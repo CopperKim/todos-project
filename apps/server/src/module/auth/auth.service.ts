@@ -1,8 +1,8 @@
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service";
 import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter, Injectable, UnauthorizedException } from "@nestjs/common";
-import { SignUpDto } from "./dto/signup.dto";
-import { LoginDto } from "./dto/login.dto";
+import { SignUpDto } from "../../common/dto/signup.dto";
+import { LoginDto } from "../../common/dto/login.dto";
 import * as bcrypt from 'bcrypt';
 
 type Tokens = { access: string; refresh: string };

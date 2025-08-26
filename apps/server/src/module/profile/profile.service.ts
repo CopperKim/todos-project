@@ -1,6 +1,6 @@
 import { PrismaService } from './../prisma/prisma.service';
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { profileDto } from './dto/profile.dto';
+import { profileDto } from '../../common/dto/profile.dto';
 
 
 @Injectable() 
