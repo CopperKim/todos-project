@@ -10,19 +10,23 @@ export class ProfileService {
     ) {}
 
     async getProfile(userId: string) {
-        const user = await this.prismaService.user.findUnique({ 
-            where : { id : userId }, 
-            select : { username: true, role: true, tag: true, bio: true }
+        const user = await this.prismaService.user.findUnique({
+            where: { id: userId }, 
+            select: { username: true }
         })
-        if (!user) throw new UnauthorizedException('Invalid Credentials')
-        return user 
+        const profile = await this.prismaService.profile.findUnique({ 
+            where : { id : userId }, 
+            select : { role: true, tags: true, bio: true }
+        })
+
+        return { ...user, ...profile }
     }
 
     async updateProfile(userId: string, dto: profileDto) {
-        return await this.prismaService.user.update({
+        return await this.prismaService.profile.update({
             where: { id: userId }, 
             data: dto, 
-            select : { role: true, tag: true, bio: true }
+            select : { role: true, tags: true, bio: true }
         })
     }
 }
