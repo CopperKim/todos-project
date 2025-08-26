@@ -18,33 +18,50 @@ model User {
   username         String   @unique
   passwordHash     String
   refreshTokenHash String?
+  createdAt        DateTime @default(now())
+  
+  profile          Profile?
+  todos            Todo[]
+  studentReviews   Review[]  @relation("StudentReviews") // 내가 학생으로 쓴 리뷰
+  teacherReviews   Review[]  @relation("TeacherReviews") // 내가 교사로 받은 리뷰
+}
+
+model Profile {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String   @unique @db.ObjectId
+  user             User     @relation(fields: [userId], references: [id])
   role             Role     @default(UNDEFINED)
   tag              String[] 
   bio              String   @default("")
-  createdAt        DateTime @default(now())
 }
 
 model Todo {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id]) 
   title     String   @default("TITLE")
   content   String   @default("content")
   dueDate   DateTime @default(now())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([userId])
 }
 
 model Review {
+
   id String @id @default(auto()) @map("_id") @db.ObjectId
+
   studentId String @db.ObjectId 
+  student User @relation("StudentReviews", fields: [studentId], references: [id])
+
   teacherId String @db.ObjectId
+  teacher User @relation("TeacherReviews", fields: [teacherId], references: [id])
+
   rating Int 
   content String @default("disgusting!!")
   createdAt DateTime @default(now())
 
   @@index([teacherId])
+  @@index([studentId])
 }
 
 enum Role {
