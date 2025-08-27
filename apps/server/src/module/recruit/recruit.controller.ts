@@ -1,10 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
-import { type TagMode, type RecruitOpts, RecruitService } from "./recruit.service";
+import { type RecruitOpts, RecruitService } from "./recruit.service";
 import { recruitDto } from "../../common/dto/recruit.dto";
-import { Public } from "../../common/decorator/public.decorator";
 import { GetCurrentUser } from "../../common/decorator/getcurrentuser.decorator";
 
-@Controller('/mypage/recruit') 
+@Controller('/api/recruit') 
 export class RecruitController {
     constructor(
         private readonly recruitService: RecruitService
