@@ -51,8 +51,8 @@ export class RecruitService {
             where: { id : recruitId }, 
             data: {
                 student: { connect: { id: studentId }} , 
-                title: recruitDto.title, 
-                content: recruitDto.content, 
+                title: recruitDto?.title, 
+                content: recruitDto?.content, 
                 dayAvailable: recruitDto?.dayAvailable ? [true, true, true, true, true, true, true] : recruitDto.dayAvailable, 
                 tags: recruitDto?.tags ? [] : recruitDto.tags 
             }

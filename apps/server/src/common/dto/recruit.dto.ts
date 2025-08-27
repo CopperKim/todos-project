@@ -3,9 +3,11 @@ import { IsArray, IsOptional, IsString, MaxLength, MinLength } from "class-valid
 export class recruitDto {
     
     @IsString() 
+    @IsOptional()
     title: string 
 
     @IsString() 
+    @IsOptional()
     content: string 
 
     @IsString() 
