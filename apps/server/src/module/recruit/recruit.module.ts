@@ -6,7 +6,7 @@ import { PrismaService } from "../prisma/prisma.service";
 @Module({
     imports: [], 
     controllers: [RecruitController], 
-    exports: [RecruitService, PrismaService] 
+    providers: [RecruitService, PrismaService] 
 }) 
 
 export class RecruitModule {} 
