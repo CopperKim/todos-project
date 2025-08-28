@@ -15,7 +15,7 @@ export class ProfileService {
             select: { username: true }
         })
         const profile = await this.prismaService.profile.findUnique({ 
-            where : { id : userId }, 
+            where : { userId : userId }, 
             select : { role: true, tags: true, bio: true }
         })
 
