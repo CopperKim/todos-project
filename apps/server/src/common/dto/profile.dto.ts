@@ -11,5 +11,5 @@ export class profileDto {
     bio: string
     
     @IsOptional()
-    tag: string[]
+    tags: string[]
 }
