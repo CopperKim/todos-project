@@ -10,11 +10,17 @@ export class RecruitController {
     ) {} 
 
     @Get()
-    async getRecruit(
-        @GetCurrentUser() authorId: string, 
+    async getRecruitByOpt(
         @Body() opt: RecruitOpts
     ) {
-        return await this.recruitService.getRecruit(authorId, opt) 
+        return await this.recruitService.getRecruitByOpt(opt) 
+    }
+
+    @Get(':id')
+    async getRecruitById(
+        @Param() authorId: string
+    ) {
+        return await this.recruitService.getRecruitById(authorId) 
     }
 
     @Post() 
