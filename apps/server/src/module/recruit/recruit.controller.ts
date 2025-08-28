@@ -11,17 +11,18 @@ export class RecruitController {
 
     @Get()
     async getRecruit(
+        @GetCurrentUser() authorId: string, 
         @Body() opt: RecruitOpts
     ) {
-        return await this.recruitService.getRecruit(opt) 
+        return await this.recruitService.getRecruit(authorId, opt) 
     }
 
     @Post() 
-    async postRecruit(
+    async addRecruit(
         @GetCurrentUser('sub') studentId: string, 
         @Body() dto: recruitDto
     ) {
-        return await this.recruitService.postRecruit(studentId, dto)
+        return await this.recruitService.addRecruit(studentId, dto)
     }
 
     @Patch(':id')

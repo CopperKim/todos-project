@@ -5,7 +5,7 @@ import { recruitDto } from "../../common/dto/recruit.dto";
 export type TagMode = 'AND' | 'OR' 
 
 export type RecruitOpts = {
-    authorId?: string 
+    author?: boolean
     tags?: string[] 
     mode?: TagMode
     count?: number
@@ -17,9 +17,9 @@ export class RecruitService {
         private readonly prismaService: PrismaService
     ) {}
 
-    async getRecruit(opt: RecruitOpts) { 
-        if (!opt.authorId) return await this.prismaService.recruit.findMany({
-            where: { studentId : opt.authorId }, 
+    async getRecruit(authorId: string, opt: RecruitOpts) { 
+        if (!opt.author) return await this.prismaService.recruit.findMany({
+            where: { studentId : authorId }, 
             orderBy: { updatedAt : "desc" }
         })
         
@@ -36,7 +36,7 @@ export class RecruitService {
         })
     }
 
-    async postRecruit(studentId: string, recruitDto: recruitDto) {
+    async addRecruit(studentId: string, recruitDto: recruitDto) {
         this.prismaService.recruit.create({ data: {
             student: { connect : { id : studentId }} , 
             title: recruitDto.title, 
