@@ -24,7 +24,7 @@ export class ProfileService {
 
     async updateProfile(userId: string, dto: profileDto) {
         return await this.prismaService.profile.update({
-            where: { id: userId }, 
+            where: { userId: userId }, 
             data: dto, 
             select : { role: true, tags: true, bio: true }
         })
