@@ -22,9 +22,18 @@ export class AuthService {
 
         const passwordHash = await bcrypt.hash(dto.password, 12);
 
-        await this.prismaService.user.create({
+        const u = await this.prismaService.user.create({
             data: { username: dto.username, passwordHash },
         });
+
+        await this.prismaService.profile.create({
+            data: {
+                user: { connect : { id : u.id }}, 
+                role: "UNDEFINED", 
+                bio: "bio", 
+                tags: ["tags"], 
+            }
+        })
 
         return { ok: true };
     }
