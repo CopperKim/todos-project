@@ -5,6 +5,7 @@ import { recruitDto } from "../../common/dto/recruit.dto";
 export type TagMode = 'AND' | 'OR' 
 
 export type RecruitOpts = {
+    myRecruit?: boolean
     tags?: string[] 
     mode?: TagMode
     count?: number
@@ -16,8 +17,9 @@ export class RecruitService {
         private readonly prismaService: PrismaService
     ) {}
 
-    async getRecruitByOpt(opt: RecruitOpts) { 
-        
+    async getRecruitByOpt(user: string, opt: RecruitOpts) { 
+        if (opt?.myRecruit) return this.prismaService.recruit.findMany({ where: { studentId: user }})
+
         opt.count = ( opt.count !== undefined && Number.isInteger(opt.count) && opt.count>0 ) ? opt.count : 10 
         var findOpt; 
         if ( !opt?.tags || opt.tags.length === 0 ) findOpt = {} 
@@ -31,17 +33,21 @@ export class RecruitService {
         })
     }
 
-    async getRecruitById(authorId: string) {
+    async getRecruitByAuthorId(authorId: string) {
         return await this.prismaService.recruit.findMany({ where: { studentId: authorId }})
     }
 
+    async getRecruitByRecruitId(recruitId: string) {
+        return await this.prismaService.recruit.findUnique({ where: {id : recruitId}})
+    }
+
     async addRecruit(studentId: string, recruitDto: recruitDto) {
-        this.prismaService.recruit.create({ data: {
+        return this.prismaService.recruit.create({ data: {
             student: { connect : { id : studentId }} , 
             title: recruitDto.title, 
             content: recruitDto.content, 
-            dayAvailable: recruitDto?.dayAvailable ? [true, true, true, true, true, true, true] : recruitDto.dayAvailable, 
-            tags: recruitDto?.tags ? [] : recruitDto.tags 
+            dayAvailable: recruitDto?.dayAvailable ? recruitDto.dayAvailable : [true, true, true, true, true, true, true], 
+            tags: recruitDto?.tags ? recruitDto.tags : []
         }})
     }
 
@@ -52,8 +58,8 @@ export class RecruitService {
                 student: { connect: { id: studentId }} , 
                 title: recruitDto?.title, 
                 content: recruitDto?.content, 
-                dayAvailable: recruitDto?.dayAvailable ? [true, true, true, true, true, true, true] : recruitDto.dayAvailable, 
-                tags: recruitDto?.tags ? [] : recruitDto.tags 
+                dayAvailable: recruitDto?.dayAvailable ? recruitDto.dayAvailable : [true, true, true, true, true, true, true], 
+                tags: recruitDto?.tags ? recruitDto.tags : []
             }
         })
     } 

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { type RecruitOpts, RecruitService } from "./recruit.service";
 import { recruitDto } from "../../common/dto/recruit.dto";
 import { GetCurrentUser } from "../../common/decorator/getcurrentuser.decorator";
@@ -9,18 +9,26 @@ export class RecruitController {
         private readonly recruitService: RecruitService
     ) {} 
 
-    @Get()
+    @Get('/opt')
     async getRecruitByOpt(
-        @Body() opt: RecruitOpts
+        @GetCurrentUser('sub') user: string, 
+        @Query() opt: RecruitOpts
     ) {
-        return await this.recruitService.getRecruitByOpt(opt) 
+        return await this.recruitService.getRecruitByOpt(user, opt) 
     }
 
-    @Get(':id')
-    async getRecruitById(
+    @Get('/authorId/:id')
+    async getRecruitByAuthorId(
         @Param() authorId: string
     ) {
-        return await this.recruitService.getRecruitById(authorId) 
+        return await this.recruitService.getRecruitByAuthorId(authorId) 
+    }
+
+    @Get('/recruitId/:id')
+    async getRecruitByRecruitId(
+        @Param() recruitId: string 
+    ) {
+        return await this.recruitService.getRecruitByRecruitId(recruitId)
     }
 
     @Post() 
@@ -28,6 +36,7 @@ export class RecruitController {
         @GetCurrentUser('sub') studentId: string, 
         @Body() dto: recruitDto
     ) {
+        console.log(dto)
         return await this.recruitService.addRecruit(studentId, dto)
     }
 
@@ -37,6 +46,7 @@ export class RecruitController {
         @GetCurrentUser('sub') studentId: string, 
         @Body() dto: recruitDto
     ) {
+        console.log(dto)
         return await this.recruitService.updateRecruit(recruitId, studentId, dto)
     }
 
