@@ -1,4 +1,4 @@
-import { IsArray, IsOptional, IsString, MaxLength, MinLength } from "class-validator"
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsOptional, IsString } from "class-validator"
 
 export class recruitDto {
     
@@ -10,10 +10,11 @@ export class recruitDto {
     @IsOptional()
     content: string 
 
-    @IsString() 
     @IsOptional() 
-    @MinLength(7) 
-    @MaxLength(7)
+    @IsArray() 
+    @IsBoolean({each: true})
+    @ArrayMinSize(7)
+    @ArrayMaxSize(7)
     dayAvailable: boolean[]
     
     @IsArray() 
