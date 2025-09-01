@@ -23,7 +23,7 @@ export class RecruitService {
         opt.count = ( opt.count !== undefined && Number.isInteger(opt.count) && opt.count>0 ) ? opt.count : 10 
         var findOpt; 
         if ( !opt?.tags || opt.tags.length === 0 ) findOpt = {} 
-        else if (opt?.mode || opt.mode === "AND") findOpt = { tags: { hasEvery: opt.tags } } 
+        else if (opt.mode === "AND") findOpt = { tags: { hasEvery: opt.tags } } 
         else findOpt = { tags : { hasSome : opt.tags }}
 
         return await this.prismaService.recruit.findMany({
