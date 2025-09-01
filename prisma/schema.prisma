@@ -25,6 +25,8 @@ model User {
   studentReviews   Review[]  @relation("StudentReviews")
   teacherReviews   Review[]  @relation("TeacherReviews")
   recuits          Recruit[] @relation("Recruits")
+  chatLinks      ChatParticipant[]
+  sentMessages   Message[]          @relation("MessagesFrom")
 }
 
 model Profile {
@@ -59,28 +61,49 @@ model Recruit {
   updatedAt     DateTime    @updatedAt 
 }
 
-// model Chat {
-  
-// } 
+model Chat {
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
+  participants ChatParticipant[]
+  messages     Message[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+}
 
-// model Message {
+model ChatParticipant {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  chatId    String  @db.ObjectId
+  chat      Chat    @relation(fields: [chatId], references: [id])
+  userId    String  @db.ObjectId
+  user      User    @relation(fields: [userId], references: [id])
+  joinedAt  DateTime @default(now())
+  @@unique([chatId, userId])
+  @@index([userId])
+  @@index([chatId])
+}
 
-// }
+model Message {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  chatId     String   @db.ObjectId
+  chat       Chat     @relation(fields: [chatId], references: [id])
+  fromId     String   @db.ObjectId
+  from       User     @relation("MessagesFrom", fields: [fromId], references: [id])
+  text       String   @default("")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([chatId])
+  @@index([fromId])
+}
 
 model Review {
-
   id String @id @default(auto()) @map("_id") @db.ObjectId
-
   studentId String @db.ObjectId 
   student User @relation("StudentReviews", fields: [studentId], references: [id])
-
   teacherId String @db.ObjectId
   teacher User @relation("TeacherReviews", fields: [teacherId], references: [id])
-
   rating Int 
   content String @default("disgusting!!")
   createdAt DateTime @default(now())
-
   @@index([teacherId])
   @@index([studentId])
 }
